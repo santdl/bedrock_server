@@ -1,0 +1,12 @@
+# Segredos
+.env
+
+# Dados e backups (nunca versionar mundo vivo)
+backups/
+bedrock-data/
+playit-data/
+
+# Lixo de SO
+.DS_Store
+Thumbs.db
+desktop.ini

@@ -1,0 +1,89 @@
+services:
+  # ─────────────────────────────────────────────────────────────
+  # Servidor Minecraft Bedrock
+  # ─────────────────────────────────────────────────────────────
+  mc-bedrock:
+    image: itzg/minecraft-bedrock-server
+    container_name: mc-bedrock
+    stdin_open: true
+    tty: true
+    environment:
+      EULA: "TRUE"
+      TZ: "America/Sao_Paulo"
+
+      # Versao fixada: evita atualizacao automatica quebrar a
+      # compatibilidade com o cliente da familia.
+      # Para atualizar de proposito, troque o numero e recrie.
+      VERSION: "1.26.43.1"
+
+      # Identidade do servidor
+      SERVER_NAME: "Servidor da Familia"
+      LEVEL_NAME: "Bedrock level"
+
+      # Jogabilidade
+      GAMEMODE: "survival"
+      DIFFICULTY: "normal"
+      ALLOW_CHEATS: "true"                      # necessario para comandos /
+      DEFAULT_PLAYER_PERMISSION_LEVEL: "operator"
+
+      # Acesso: allowlist desligada = qualquer um com o endereco entra.
+      # Para restringir depois: ALLOW_LIST "true" + allowlist add <nome>
+      ALLOW_LIST: "false"
+      MAX_THREADS: "8"
+    volumes:
+      - bedrock-data:/data
+    ports:
+      # Acesso pela rede local (LAN). O acesso externo passa pelo playit.
+      - "19132:19132/udp"
+    healthcheck:
+      test: ["CMD", "mc-monitor", "status-bedrock", "--host", "localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 2m
+    restart: unless-stopped
+    networks:
+      - mc-net
+
+  # ─────────────────────────────────────────────────────────────
+  # Tunel playit.gg — contorna o CGNAT da operadora
+  # ─────────────────────────────────────────────────────────────
+  playit:
+    image: ghcr.io/playit-cloud/playit-agent:latest
+    container_name: playit-agent
+    environment:
+      SECRET_KEY: "${PLAYIT_SECRET_KEY}"        # definido no arquivo .env
+    depends_on:
+      - mc-bedrock
+    restart: unless-stopped
+    networks:
+      - mc-net
+
+  # ─────────────────────────────────────────────────────────────
+  # Backup automatico (formato .mcworld, importavel em qualquer
+  # cliente Bedrock). Usa save hold / save query / save resume.
+  # ─────────────────────────────────────────────────────────────
+  mc-backup:
+    image: kaiede/minecraft-bedrock-backup
+    container_name: mc-backup
+    depends_on:
+      - mc-bedrock
+    tty: true
+    environment:
+      TZ: "America/Sao_Paulo"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - bedrock-data:/server          # volume do servidor
+      - ./backups:/backups            # saída + config.yml
+    restart: unless-stopped
+    networks:
+      - mc-net
+
+volumes:
+  bedrock-data:
+    external: true
+    name: bedrock_server_bedrock-data
+
+networks:
+  mc-net:
+    driver: bridge
