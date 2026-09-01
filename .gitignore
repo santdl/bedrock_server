@@ -10,3 +10,6 @@ playit-data/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Mundos importados (.mcworld) - artefatos binarios grandes
+*.mcworld

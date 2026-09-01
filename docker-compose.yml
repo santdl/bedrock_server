@@ -18,7 +18,7 @@ services:
 
       # Identidade do servidor
       SERVER_NAME: "Servidor da Familia"
-      LEVEL_NAME: "Bedrock level"
+      LEVEL_NAME: "One Block Adventure"
 
       # Jogabilidade
       GAMEMODE: "survival"
