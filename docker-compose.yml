@@ -11,10 +11,10 @@ services:
       EULA: "TRUE"
       TZ: "America/Sao_Paulo"
 
-      # Versao fixada: evita atualizacao automatica quebrar a
-      # compatibilidade com o cliente da familia.
-      # Para atualizar de proposito, troque o numero e recrie.
-      VERSION: "1.26.44.3"
+      # Versao fixada. ATENCAO: precisa acompanhar a versao do cliente -
+      # o Bedrock exige protocolo igual entre cliente e servidor. Se o
+      # app do celular atualizar sozinho, suba este numero junto.
+      VERSION: "1.26.45.1"
 
       # Identidade do servidor
       SERVER_NAME: "Servidor da Familia"
@@ -36,7 +36,7 @@ services:
       # Acesso pela rede local (LAN). O acesso externo passa pelo playit.
       - "19132:19132/udp"
     healthcheck:
-      test: ["CMD", "mc-monitor", "status-bedrock", "--host", "localhost"]
+      test: ["CMD", "mc-monitor", "status-bedrock", "--host", "127.0.0.1"]
       interval: 30s
       timeout: 10s
       retries: 3
