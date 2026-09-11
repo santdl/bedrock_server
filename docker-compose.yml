@@ -18,7 +18,7 @@ services:
 
       # Identidade do servidor
       SERVER_NAME: "Servidor da Familia"
-      LEVEL_NAME: "One Block Adventure"
+      LEVEL_NAME: "Bedrock level" # Para alternar entre mundos substituir LEVEL_NAME entre "One Block Adventure" e "Bedrock level" e rodar o docker compose up -d --force-recreate mc-bedrock
 
       # Jogabilidade
       GAMEMODE: "survival"
