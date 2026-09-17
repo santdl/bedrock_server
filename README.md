@@ -21,7 +21,6 @@ Disponíveis hoje:
 | `Bedrock level`       | mundo original da família           |
 | `One Block Adventure` | traz os add-ons BP_OB/RP_OB embutidos |
 | `Medieval Honor City` | mapa importado                      |
-| `Wilderness_Bound`    | mundo novo, gerado pelo servidor    |
 
 > ⚠️ Se `LEVEL_NAME` apontar para uma pasta que não existe, o servidor **não**
 > dá erro: ele gera um mundo novo do zero com aquele nome, com seed aleatória e
@@ -80,12 +79,12 @@ docker compose stop mc-bedrock
 docker run --rm `
   -v bedrock_server_bedrock-data:/data `
   -v "${PWD}:/import" `
-  alpine sh -c "mkdir -p '/data/worlds/Wilderness Bound' && `
-    unzip -o '/import/Wilderness Bound.mcworld' -d '/data/worlds/Wilderness Bound' && `
-    chown -R 1000:1000 '/data/worlds/Wilderness Bound'"
+  alpine sh -c "mkdir -p '/data/worlds/Mapa Novo' && `
+    unzip -o '/import/Mapa Novo.mcworld' -d '/data/worlds/Mapa Novo' && `
+    chown -R 1000:1000 '/data/worlds/Mapa Novo'"
 
 # 3. Confira que o level.dat ficou na raiz da pasta (e não num subdiretório)
-docker run --rm -v bedrock_server_bedrock-data:/data alpine ls -la "/data/worlds/Wilderness Bound"
+docker run --rm -v bedrock_server_bedrock-data:/data alpine ls -la "/data/worlds/Mapa Novo"
 
 # 4. Aponte LEVEL_NAME para o mundo novo no docker-compose.yml e suba
 docker compose up -d --force-recreate mc-bedrock

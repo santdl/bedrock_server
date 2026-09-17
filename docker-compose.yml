@@ -22,10 +22,10 @@ services:
       # /data/worlds dentro do volume - se nao existir, o servidor cria um
       # mundo novo e vazio em vez de reclamar.
       # Disponiveis: "Bedrock level", "One Block Adventure",
-      #              "Medieval Honor City", "Wilderness_Bound"
+      #              "Medieval Honor City"
       # Trocar o valor e rodar: docker compose up -d --force-recreate mc-bedrock
       # Import de mundo pronto (.mcworld): ver README.md
-      LEVEL_NAME: "Wilderness_Bound"
+      LEVEL_NAME: "One Block Adventure"
 
       # Jogabilidade
       GAMEMODE: "survival"
