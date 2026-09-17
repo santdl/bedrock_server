@@ -130,6 +130,32 @@ entre cliente e servidor: se o app do celular atualizar, suba esse número junto
 
 ## playit.gg
 
-`PLAYIT_SECRET_KEY` vem do `.env` (veja `.env.example`). Se o túnel ficar em
-laço e o acesso externo não subir, cheque o relógio do Windows:
-`w32tm /resync` como administrador.
+`PLAYIT_SECRET_KEY` vem do `.env` (veja `.env.example`).
+
+### "Não conecta de fora" é quase sempre o relógio
+
+O protocolo de controle do playit valida timestamps e degrada acima de **10
+segundos** de desvio. Com o relógio do Windows atrasado, o túnel entra em laço
+de reconexão: a LAN continua funcionando, mas quem está fora de casa recebe
+erro de `initialconnection` no cliente Bedrock. Já aconteceu duas vezes
+(16,8 s em 01/09/2026, 28,0 s em 17/09/2026).
+
+Diagnóstico, nesta ordem:
+
+```powershell
+docker compose logs --tail 20 playit    # procure "local timestamp if over 10 seconds off"
+w32tm /stripchart /computer:time.windows.com /samples:3 /dataonly
+```
+
+Conserto, num PowerShell **como Administrador** (sem elevação o `w32tm` devolve
+`Acesso negado. (0x80070005)`):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\fix-time-sync.ps1
+docker compose restart playit
+```
+
+O script faz o resync, deixa o `w32time` em automático, encurta o intervalo de
+sincronização para 15 min e libera `MaxPos/NegPhaseCorrection` — sem isso o
+Windows **ignora em silêncio** desvios grandes, que é o motivo de o problema
+voltar.
