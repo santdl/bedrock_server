@@ -14,7 +14,7 @@ services:
       # Versao fixada. ATENCAO: precisa acompanhar a versao do cliente -
       # o Bedrock exige protocolo igual entre cliente e servidor. Se o
       # app do celular atualizar sozinho, suba este numero junto.
-      VERSION: "1.26.45.1"
+      VERSION: "1.26.51.1"
 
       # Identidade do servidor
       SERVER_NAME: "Servidor da Familia"
