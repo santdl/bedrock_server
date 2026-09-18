@@ -81,7 +81,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - bedrock-data:/server          # volume do servidor
-      - ./backups:/backups            # saída + config.yml
+      - ${BACKUPS_DIR:-./backups}:/backups            # saída + config.yml
     restart: unless-stopped
     networks:
       - mc-net
