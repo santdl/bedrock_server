@@ -13,3 +13,6 @@ desktop.ini
 
 # Mundos importados (.mcworld) - artefatos binarios grandes
 *.mcworld
+
+# Claude Code - config local da maquina
+.claude/settings.local.json
