@@ -1,0 +1,22 @@
+containers:
+  bedrock:
+    - name: mc-bedrock
+      worlds:
+        # Todos os mundos do volume entram na rotina, ativos ou nao, para que
+        # trocar o LEVEL_NAME nao deixe o backup apontando para o lugar errado.
+        - /server/worlds/One Block Adventure
+        # Mundo da familia, parado desde 01/09/2026.
+        - /server/worlds/Bedrock level
+        - /server/worlds/Medieval Honor City
+        - /server/worlds/Dappled Forest
+
+schedule:
+  interval: 6h
+  startupDelay: 2m
+  onLastLogout: true
+  runInitialBackup: true
+
+trim:
+  trimDays: 3
+  keepDays: 14
+  minKeep: 3
