@@ -3,6 +3,7 @@
 
 # Dados e backups (nunca versionar mundo vivo)
 backups/
+!backups/config.yml
 bedrock-data/
 playit-data/
 
